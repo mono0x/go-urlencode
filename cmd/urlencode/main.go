@@ -7,10 +7,16 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strings"
 )
 
 func run() error {
-	reader := bufio.NewReader(os.Stdin)
+	var reader *bufio.Reader
+	if len(os.Args) >= 2 {
+		reader = bufio.NewReader(strings.NewReader(strings.Join(os.Args[1:], " ")))
+	} else {
+		reader = bufio.NewReader(os.Stdin)
+	}
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil && err != io.EOF {
